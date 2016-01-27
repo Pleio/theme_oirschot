@@ -6,7 +6,7 @@
 
 /**
  * Return the site menu
- * 
+ *
  * @param string $hook        name of the hook
  * @param string $entity_type type of the hook
  * @param array  $returnvalue current return value
@@ -23,7 +23,11 @@ function theme_oirschot_register_site_menu_handler($hook, $entity_type, $returnv
 		$menu_items[] = ElggMenuItem::factory(array("name" => "activity",  "href" => "activity/all", "text" => elgg_echo("theme_oirschot:menu:activity") . "<i class='fa fa-list-alt'></i>"));
 	}
 
-	$menu_items[] = ElggMenuItem::factory(array("name" => "groups",  "href" => "groups/all", "text" => elgg_echo("theme_oirschot:menu:groups") . "<i class='fa fa-group'></i>"));
+	if (theme_oirschot_is_subsite_member()) {
+		$menu_items[] = ElggMenuItem::factory(array("name" => "groups",  "href" => "groups/all", "text" => elgg_echo("theme_oirschot:menu:groups") . "<i class='fa fa-group'></i>"));
+	} else {
+		$menu_items[] = ElggMenuItem::factory(array("name" => "groups",  "href" => "groups/mine", "text" => elgg_echo("theme_oirschot:menu:groups") . "<i class='fa fa-group'></i>"));
+	}
 
 	if (theme_oirschot_is_subsite_member()) {
 		$menu_items[] = ElggMenuItem::factory(array("name" => "pages",  "href" => "groups/profile/25324652/wiki", "text" => elgg_echo("theme_oirschot:menu:pages") . "<i class='fa fa-code-fork'></i>"));
@@ -63,18 +67,20 @@ function theme_oirschot_register_site_menu_handler($hook, $entity_type, $returnv
 		"target" => "_blank",
 		"parent_name" => "activity"
 	));
-	
+
 	// groups submenu
-	$menu_items[] = ElggMenuItem::factory(array(
-		"name" => "groups_all",
-		"href" => "groups/all",
-		"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:groups:all"),
-		"parent_name" => "groups"
-	));
-	
+	if (theme_oirschot_is_subsite_member()) {
+		$menu_items[] = ElggMenuItem::factory(array(
+			"name" => "groups_all",
+			"href" => "groups/all",
+			"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:groups:all"),
+			"parent_name" => "groups"
+		));
+	}
+
 	if (elgg_is_logged_in()) {
 		$user = elgg_get_logged_in_user_entity();
-		
+
 		// groups submenu
 		$menu_items[] = ElggMenuItem::factory(array(
 			"name" => "groups_mine",
@@ -82,77 +88,77 @@ function theme_oirschot_register_site_menu_handler($hook, $entity_type, $returnv
 			"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:groups:mine"),
 			"parent_name" => "groups"
 		));
-		
+
 		// add submenu
 	        if (theme_oirschot_is_subsite_member()) {
 			$menu_items[] = ElggMenuItem::factory(array(
-				"name" => "thewire",  
-				"href" => "thewire/all", 
+				"name" => "thewire",
+				"href" => "thewire/all",
 				"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:add:thewire"),
 				"parent_name" => "add"
 			));
-		
+
 			$menu_items[] = ElggMenuItem::factory(array(
-				"name" => "blog",  
-				"href" => "blog/add/" . $user->getGUID(), 
+				"name" => "blog",
+				"href" => "blog/add/" . $user->getGUID(),
 				"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:add:blog"),
 				"parent_name" => "add"
 			));
-		
+
 			$menu_items[] = ElggMenuItem::factory(array(
-				"name" => "pages",  
-				"href" => "pages/add/25324652", 
+				"name" => "pages",
+				"href" => "pages/add/25324652",
 				"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:add:pages"),
 				"parent_name" => "add"
 			));
-		
+
 			$menu_items[] = ElggMenuItem::factory(array(
-				"name" => "group",  
-				"href" => "groups/add/" . $user->getGUID(), 
+				"name" => "group",
+				"href" => "groups/add/" . $user->getGUID(),
 				"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:add:group"),
 				"parent_name" => "add"
 			));
-		
+
 			$menu_items[] = ElggMenuItem::factory(array(
-				"name" => "event",  
-				"href" => "events/event/new", 
+				"name" => "event",
+				"href" => "events/event/new",
 				"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:add:event"),
 				"parent_name" => "add"
 			));
-		
+
 			$menu_items[] = ElggMenuItem::factory(array(
-				"name" => "photo",  
-				"href" => "photos/add/" . $user->getGUID(), 
+				"name" => "photo",
+				"href" => "photos/add/" . $user->getGUID(),
 				"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:add:album"),
 				"parent_name" => "add"
 			));
 		}
 	}
-	
+
 	return $menu_items;
 }
 
 /**
  * Add some icons before some menu items
- * 
+ *
  * @param string         $hook        name of the hook
  * @param string         $entity_type type of the hook
  * @param ElggMenuItem[] $returnvalue current return value
  * @param array          $params      extra params
- * 
+ *
  * @return ElggMenuItem[]
  */
 function theme_oirschot_prepare_owner_block_menu_handler($hook, $entity_type, $returnvalue, $params) {
-	
+
 	if (empty($returnvalue) || !is_array($returnvalue)) {
 		return $returnvalue;
 	}
-	
+
 	foreach ($returnvalue as $section => $menu_items) {
-		
+
 		if (!empty($menu_items) && is_array($menu_items)) {
 			foreach ($menu_items as $menu_item) {
-				
+
 				switch ($menu_item->getName()) {
 					case "activity":
 					case "thewire":
@@ -198,4 +204,17 @@ function theme_oirschot_prepare_owner_block_menu_handler($hook, $entity_type, $r
 			}
 		}
 	}
+}
+
+function theme_oirschot_groups_route_handler($hook, $type, $returnvalue, $params) {
+	$segments = $returnvalue['segments'];
+	$user = elgg_get_logged_in_user_entity();
+
+	if (!theme_oirschot_is_subsite_member() && in_array($segments[0], array('all', 'suggested'))) {
+		register_error(elgg_echo('theme_oirschot:groups:access_limited'));
+		forward('/groups/member/' . $user->username);
+		return true;
+	}
+
+	return $returnvalue;
 }

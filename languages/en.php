@@ -24,9 +24,9 @@ $english = array(
 	'theme_oirschot:menu:add:event' => 'Create event',
 	'theme_oirschot:menu:add:album' => 'Create photoalbum',
 	'theme_oirschot:search:text' => 'What are you looking for',
-	
+
 	'admin:appearance:theme_oirschot' => "Theme Oirschot",
-	
+
 	'theme_oirschot:slider_upload' => "Header slider image upload",
 	'theme_oirschot:slider_upload:description' => "Here you can upload images to be shown in the header slider. These images need to be 450px by 235px.",
 	'theme_oirschot:slider_upload:image_1' => "Image 1",
@@ -34,11 +34,12 @@ $english = array(
 	'theme_oirschot:slider_upload:image_3' => "Image 3",
 	'theme_oirschot:slider_upload:image_4' => "Image 4",
 	'theme_oirschot:slider_upload:image_5' => "Image 5",
-	
+
 	'theme_oirschot:action:slider_upload:done' => "Theme Oirschot",
-	
+
 	'theme_oirschot:widgets:profile_owner_block:title' => "Profile",
 	'theme_oirschot:widgets:profile_owner_block:description' => "Show profile icon + menu",
+	'theme_oirschot:groups:access_limited' => 'Access is limited to groups you are member of.'
 
 );
 
