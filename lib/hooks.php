@@ -62,7 +62,7 @@ function theme_oirschot_register_site_menu_handler($hook, $entity_type, $returnv
 	));
 	$menu_items[] = ElggMenuItem::factory(array(
 		"name" => "jobs",
-		"href" => "http://www.kempengemeenten.nl/intranet-kempen/vacatures_3491",
+		"href" => "https://intranet.kempengemeenten.nl/intranet-kempen/vacatures_3491/",
 		"text" => "<i class='fa fa-plus'></i> " . elgg_echo("theme_oirschot:menu:activity:jobs"),
 		"target" => "_blank",
 		"parent_name" => "activity"
